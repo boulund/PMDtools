@@ -695,48 +695,47 @@ def main():
 
 
     if options.deamination:
-        if True:
-            pairs=['CT','CA','CG','CC','GA','GT','GC','GG']
-            itotaldict={}
-            ztotaldict={}
-            for i in range(0,options.range):
-                itotal=0
-                ztotal=0
-                for p in pairs:
-                    thekey=p+str(i)
-                    try:
-                        itotal += mismatch_dict[thekey]
-                    except KeyError: pass
-                    try:
-                        ztotal += mismatch_dict_rev[thekey]
-                    except KeyError: pass
-                itotaldict[i]=itotal
-                ztotaldict[i]=ztotal
+        pairs=['CT','CA','CG','CC','GA','GT','GC','GG']
+        itotaldict={}
+        ztotaldict={}
+        for i in range(0,options.range):
+            itotal=0
+            ztotal=0
+            for p in pairs:
+                thekey=p+str(i)
+                try:
+                    itotal += mismatch_dict[thekey]
+                except KeyError: pass
+                try:
+                    ztotal += mismatch_dict_rev[thekey]
+                except KeyError: pass
+            itotaldict[i]=itotal
+            ztotaldict[i]=ztotal
 
-            print('z\t','\t'.join(pairs))
+        print('z\t','\t'.join(pairs))
 
-            for i in range(0,options.range):
-                print(str(i)+'\t', end="")
-                for p in pairs:
-                    thekey=p+str(i)
-                    if 'C' in p[0]:
-                        try:
-                            thecount=mismatch_dict[thekey]
-                        except KeyError: 
-                            print('0.00000\t', end="")
-                            continue
-                        thetotal=itotaldict[i]
-                        frac=1.0*thecount/thetotal
-                    if 'G' in p[0]:
-                        try:
-                            thecount=mismatch_dict_rev[thekey]
-                        except KeyError: 
-                            print('0.00000\t', end="")
-                            continue
-                        thetotal=ztotaldict[i]
-                        frac=1.0*thecount/thetotal
-                    print(str(round(frac,5))+'\t', end="")
-                print('')
+        for i in range(0,options.range):
+            print(str(i)+'\t', end="")
+            for p in pairs:
+                thekey=p+str(i)
+                if 'C' in p[0]:
+                    try:
+                        thecount=mismatch_dict[thekey]
+                    except KeyError: 
+                        print('0.00000\t', end="")
+                        continue
+                    thetotal=itotaldict[i]
+                    frac=1.0*thecount/thetotal
+                if 'G' in p[0]:
+                    try:
+                        thecount=mismatch_dict_rev[thekey]
+                    except KeyError: 
+                        print('0.00000\t', end="")
+                        continue
+                    thetotal=ztotaldict[i]
+                    frac=1.0*thecount/thetotal
+                print(str(round(frac,5))+'\t', end="")
+            print('')
 
 
 
