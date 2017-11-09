@@ -201,18 +201,18 @@ def geometric(pval,kval,constant):
 
 
 def main():
-    maxlen=options.maxlength
+    maxlen = options.maxlength
      
-    modern_model_deam='0.001'
-    modern_model_deam=modern_model_deam.split('\n')*1000 
-    modern_model_deam=[float(l) for l in modern_model_deam]
+    modern_model_deam = '0.001'
+    modern_model_deam = modern_model_deam.split('\n')*1000 
+    modern_model_deam = [float(l) for l in modern_model_deam]
 
-    ancient_model_deam=[geometric(options.PMDpparam,l,options.PMDconstant) for l in range(1,1000)]
+    ancient_model_deam = [geometric(options.PMDpparam,l,options.PMDconstant) for l in range(1,1000)]
 
     if options.adjustbaseq_all:
-        adjustment_model_deam=[geometric(options.PMDpparam,l,0.0) for l in range(1,1000)] ###constant is 0.0 here in contrast to the model used to compute PMD scores
+        adjustment_model_deam = [geometric(options.PMDpparam,l,0.0) for l in range(1,1000)] ###constant is 0.0 here in contrast to the model used to compute PMD scores
 
-    start_dict= {}
+    start_dict = {}
 
     ###base composition
     start_count = 0
@@ -220,28 +220,28 @@ def main():
     not_counted = 0
     imperfect = 0
 
-    mismatch_dict={}
+    mismatch_dict = {}
 
 
     cigarparser = re.compile("([0-9]*)([A-Z])")
 
 
-    start_dict_rev= {}
-    mismatch_dict_rev={}
+    start_dict_rev = {}
+    mismatch_dict_rev = {}
 
 
-    deaminationlist=[]
-    zpositionlist=[]
-    ipositionlist=[]
+    deaminationlist = []
+    zpositionlist = []
+    ipositionlist = []
 
-    clipexcluded=0
-    indelexcluded=0
-    noMD=0
-    noGCexcluded=0
-    excluded_threshold=0
-    passed=0
-    noquals=0
-    maskings=0
+    clipexcluded = 0
+    indelexcluded = 0
+    noMD = 0
+    noGCexcluded = 0
+    excluded_threshold = 0
+    passed = 0
+    noquals = 0
+    maskings = 0
 
 
     line_counter = 0
@@ -250,7 +250,7 @@ def main():
             if options.header:
                 print(line.rstrip('\n'))
             continue
-        line_counter +=1
+        line_counter += 1
 
         col = line.split('\t')
         readname = col[0]
@@ -268,7 +268,7 @@ def main():
         cigar=col[5]
 
         if len(quals) <2:
-            noquals+=1
+            noquals += 1
             continue
 
         if options.noinsertions:
@@ -281,11 +281,11 @@ def main():
             if 'D' not in cigar:continue 
         if options.noindels:
             if 'I' in cigar or 'D' in cigar:
-                indelexcluded +=1
+                indelexcluded += 1
                 continue
         if options.noclips:
             if 'S' in cigar or 'H' in cigar or 'N' in cigar or 'P' in cigar:
-                clipexcluded +=1
+                clipexcluded += 1
                 continue
         if options.onlyclips:
             if 'S' not in cigar:
@@ -312,11 +312,11 @@ def main():
         if options.notreverse:
             if reverse: continue
 
-        DSfield=False
+        DSfield = False
         if 'DS:Z:' in line:
-            DSfield=True
-            PMDS= float(line.split('DS:Z:')[1].rstrip('\n').split()[0])
-            LR=PMDS
+            DSfield = True
+            PMDS = float(line.split('DS:Z:')[1].rstrip('\n').split()[0])
+            LR = PMDS
             #print(PMDS)
         
 
@@ -327,51 +327,50 @@ def main():
         ##############
         if (DSfield == False) or (options.writesamfield) or (options.basic > 0) or (options.perc_identity > 0.01) or (options.printalignments) or (options.adjustbaseq) or (options.adjustbaseq_all) or options.deamination or options.dry:
             
-            read=col[9]
-            ref_seq=''
-            newread=''
+            read = col[9]
+            ref_seq = ''
+            newread = ''
         
             try:
-                MD=line.split('MD:Z:')[1].split()[0].rstrip('\n')
+                MD = line.split('MD:Z:')[1].split()[0].rstrip('\n')
             except IndexError:
-                noMD+=1
+                noMD += 1
                 continue
 
-            MDlist=re.findall('(\d+|\D+)',MD)
+            MDlist = re.findall('(\d+|\D+)',MD)
 
-                
-            MDcounter=0
-            alignment=''
+            MDcounter = 0
+            alignment = ''
             for e in MDlist:
                 if e.isdigit():
-                    e=int(e)
+                    e = int(e)
                     alignment += '.'*e
-                    ref_seq+= read[MDcounter:MDcounter+e]
-                    newread+= read[MDcounter:MDcounter+e]
-                    MDcounter+= int(e)
+                    ref_seq += read[MDcounter:MDcounter+e]
+                    newread += read[MDcounter:MDcounter+e]
+                    MDcounter += int(e)
 
                 elif '^' in e:
-                    ef=e.lstrip('^')
+                    ef = e.lstrip('^')
                     alignment += ef
                     continue
                 elif e.isalpha():
                     alignment += e
-                    ref_seq+= e
-                    newread+= read[MDcounter]
-                    MDcounter+=len(e)
+                    ref_seq += e
+                    newread += read[MDcounter]
+                    MDcounter += len(e)
 
             if 'I' in cigar or 'S' in cigar:
 
                 # find insertions and clips in cigar
-                insertions=[]
-                deletions=[]
-                softclips=[]
-                hardclips=[]
-                paddings=[]
-                cigarcount=0
-                cigarcomponents=cigarparser.findall(cigar)
+                insertions = []
+                deletions = []
+                softclips = []
+                hardclips = []
+                paddings = []
+                cigarcount = 0
+                cigarcomponents = cigarparser.findall(cigar)
                 for p in cigarcomponents:
-                    cigaraddition=int(p[0])
+                    cigaraddition = int(p[0])
                     if 'I' in p[1]: 
                         for c in range(cigarcount,cigarcount+cigaraddition): insertions.append(c)
                     elif  'S' in p[1]:
@@ -380,9 +379,9 @@ def main():
                 # end cigar parsing
 
                 # redo the read and ref using indel and clip info
-                ref_seq=''
-                newread =''
-                alignmentcounter=0
+                ref_seq = ''
+                newread = ''
+                alignmentcounter = 0
                 for x,r in zip(xrange(0,len(col[9])),read):
                     if x in insertions:
                         ref_seq += '-'
@@ -392,19 +391,19 @@ def main():
                         newread += read[x]
                     else:
                         newread += read[x]
-                        refbasealn=alignment[alignmentcounter]
+                        refbasealn = alignment[alignmentcounter]
                         if refbasealn == '.':
                             ref_seq += read[x]
                         else:
                             ref_seq += refbasealn
-                        alignmentcounter +=1
+                        alignmentcounter += 1
                         
             if reverse:
                 read = revcomp(read)
                 ref_seq = revcomp(ref_seq)
                 quals = quals[::-1]
-            real_read=read
-            real_ref_seq=ref_seq
+            real_read = read
+            real_ref_seq = ref_seq
 
 
         ##############
@@ -421,7 +420,7 @@ def main():
                 if i >= readlen: break ###20
                 if i > options.basic: break
                 #print(a,b,i)
-                if b == 'C' and a=='T' and ((ord(quals[i])-33) > options.baseq): 
+                if b == 'C' and a == 'T' and ((ord(quals[i])-33) > options.baseq): 
                     print(line.rstrip('\n'))
                     break
 
@@ -432,27 +431,27 @@ def main():
             ##############
             # divergence filter
             ##############
-            match=0
-            mismatch=0
-            mismatch_string=''
+            match = 0
+            mismatch = 0
+            mismatch_string = ''
             for a,b in zip(real_read,real_ref_seq):
-                thesebases=[a,b]
+                thesebases = [a,b]
                 if '-' in thesebases: 
-                    mismatch_string+='-'
+                    mismatch_string += '-'
                     continue
                 if a == 'N': continue
                 if b == 'N': continue
                 if a == b: 
-                    mismatch_string+='|'
-                    match +=1
-                elif a!=b: 
-                    mismatch_string+='x'
+                    mismatch_string += '|'
+                    match += 1
+                elif a != b: 
+                    mismatch_string += 'x'
                     if 'C' == b and 'T' == a: continue
                     if 'G' == b and 'A' == a: continue
-                    mismatch +=1    
+                    mismatch += 1    
             
             try:
-                perc_identity=1.0*match/(match+mismatch)
+                perc_identity = 1.0*match/(match+mismatch)
             except ZeroDivisionError:
                 continue
             if perc_identity < options.perc_identity:continue
@@ -466,25 +465,25 @@ def main():
         ##############
 
         if (DSfield == False) or (DSfield == True and options.writesamfield == True) or (options.basic > 0) or options.adjustbaseq or options.adjustbaseq_all or options.deamination or options.dry:
-            L_D=1.0
-            L_M=1.0
+            L_D = 1.0
+            L_M = 1.0
 
-            newquals=quals
+            newquals = quals
             start_position = 0
             back_start_position = len(real_read)-1
             for a,b,x in zip(real_read,real_ref_seq,range(0,len(real_ref_seq))):
                 if 'N' in [a,b]: continue
                 i = x - start_position
                 z = back_start_position - x 
-                qualsrev=quals[::-1]
+                qualsrev = quals[::-1]
                 if i >= readlen: break ###20
 
                 if options.adjustbaseq_all:
-                    newprob= adjustment_model_deam[i]+adjustment_model_deam[z] + phred2prob(ord(quals[i])-33)
-                    #newprob=min(newprob,1.0)
-                    newphred=int(prob2phred(newprob))
-                    newqual=chr(int(newphred)+33)                        
-                    newquals=quals[0:i]+newqual+quals[(i+1):]
+                    newprob = adjustment_model_deam[i]+adjustment_model_deam[z] + phred2prob(ord(quals[i])-33)
+                    #newprob = min(newprob,1.0)
+                    newphred = int(prob2phred(newprob))
+                    newqual = chr(int(newphred)+33)                        
+                    newquals = quals[0:i]+newqual+quals[(i+1):]
 
                 if (ord(quals[i])-33) < options.baseq:
                     #make sure that quality is adjusted even if baseq is below threshold
@@ -494,20 +493,20 @@ def main():
                                 if i+1 >= readlen: break
                                 if real_read[i+1] != 'G': continue
 
-                            newprob= Newbaseq(i,ancient_model_deam,quals)
-                            newphred=int(prob2phred(newprob))
-                            newqual=chr(int(newphred)+33)                        
-                            newquals=quals[0:i]+newqual+quals[(i+1):]
+                            newprob = Newbaseq(i,ancient_model_deam,quals)
+                            newphred = int(prob2phred(newprob))
+                            newqual = chr(int(newphred)+33)                        
+                            newquals = quals[0:i]+newqual+quals[(i+1):]
 
                         if b == 'G' and a == 'A':
                             if options.cpg:
                                 if i+1 >= readlen: break
                                 if real_read[::-1][i+1] != 'C': continue
 
-                            newprob= Newbaseq(z,ancient_model_deam,qualsrev)
-                            newphred=int(prob2phred(newprob))
-                            newqual=chr(int(newphred)+33)                        
-                            newquals=quals[0:i]+newqual+quals[(i+1):]
+                            newprob = Newbaseq(z,ancient_model_deam,qualsrev)
+                            newphred = int(prob2phred(newprob))
+                            newqual = chr(int(newphred)+33)                        
+                            newquals = quals[0:i]+newqual+quals[(i+1):]
                     continue
 
                 if options.deamination:
@@ -516,7 +515,7 @@ def main():
                             if i+1 >= readlen: break
                             if real_read[i+1] != 'G': continue
                         
-                        thekey=b+a+str(i)
+                        thekey = b+a+str(i)
                         if thekey in mismatch_dict.keys():
                             addition = mismatch_dict[thekey]
                             addition += 1
@@ -531,7 +530,7 @@ def main():
                             elif [z+1] >= readlen: break
                             if real_read[::-1][z+1] != 'C': continue
                         
-                        thekey=b+a+str(z)
+                        thekey = b+a+str(z)
                         if thekey in mismatch_dict_rev.keys():
                             addition = mismatch_dict_rev[thekey]
                             addition += 1
@@ -550,15 +549,15 @@ def main():
                         if options.cpg:
                             if i+1 >= readlen: break
                             if real_read[i+1] != 'G': continue
-                        if a=='T': 
+                        if a == 'T': 
                             L_D = L_D * L_mismatch(i,ancient_model_deam,quals,options.polymorphism_ancient) 
                             L_M = L_M * L_mismatch(i,modern_model_deam,quals,options.polymorphism_contamination) 
                         
                             if options.adjustbaseq:
-                                newprob= Newbaseq(i,ancient_model_deam,quals)
-                                newphred=int(prob2phred(newprob))
-                                newqual=chr(int(newphred)+33)
-                                quals=quals[0:i]+newqual+quals[(i+1):]
+                                newprob = Newbaseq(i,ancient_model_deam,quals)
+                                newphred = int(prob2phred(newprob))
+                                newqual = chr(int(newphred)+33)
+                                quals = quals[0:i]+newqual+quals[(i+1):]
                                 #print(phred2prob(ord(quals[i])),newprob)
                                 #print(ord(quals[i]),newphred)
                                 #print(quals[i],newqual)
@@ -568,7 +567,7 @@ def main():
 
                         
 
-                        elif a=='C': 
+                        elif a == 'C': 
                             L_D = L_D * L_match(i,ancient_model_deam,quals,options.polymorphism_ancient) 
                             L_M = L_M * L_match(i,modern_model_deam,quals,options.polymorphism_contamination) 
 
@@ -576,18 +575,18 @@ def main():
                         if options.cpg:
                             if i+1 >= readlen: break
                             if real_read[::-1][i+1] != 'C': continue
-                        if a=='A': 
+                        if a== 'A': 
                             L_D = L_D * L_mismatch(z,ancient_model_deam,qualsrev,options.polymorphism_ancient) 
                             L_M = L_M * L_mismatch(z,modern_model_deam,qualsrev,options.polymorphism_contamination) 
 
                             if options.adjustbaseq:
-                                newprob= Newbaseq(z,ancient_model_deam,qualsrev)
+                                newprob = Newbaseq(z,ancient_model_deam,qualsrev)
                                 
-                                newphred=int(prob2phred(newprob))
-                                newqual=chr(int(newphred)+33)                        
-                                newquals=quals[0:i]+newqual+quals[(i+1):]
+                                newphred = int(prob2phred(newprob))
+                                newqual = chr(int(newphred)+33)                        
+                                newquals = quals[0:i]+newqual+quals[(i+1):]
 
-                        elif a=='G': 
+                        elif a == 'G': 
                             #try:
                             L_D = L_D * L_match(z,ancient_model_deam,qualsrev,options.polymorphism_ancient) 
                             L_M = L_M * L_match(z,modern_model_deam,qualsrev,options.polymorphism_contamination) 
@@ -595,31 +594,31 @@ def main():
                             #    print(line, file=stderr)
 
 
-            LR= (math.log(L_D/L_M)  )
-            quals=newquals    
+            LR = (math.log(L_D/L_M)  )
+            quals = newquals    
 
         if options.adjustbaseq:
             if reverse:
-                qualsp=quals[::-1]
+                qualsp = quals[::-1]
             else:
-                qualsp=quals
-            line='\t'.join(col[0:10])+'\t'+qualsp+'\t'+'\t'.join(col[11:])
+                qualsp = quals
+            line = '\t'.join(col[0:10])+'\t'+qualsp+'\t'+'\t'.join(col[11:])
 
         ##############
         # add PMDS tag
         ##############
         if options.writesamfield == True:
             # remove DS field if present
-            if DSfield==True:
-                newline=''
+            if DSfield == True:
+                newline = ''
                 for col in line.split('\t'):
                     if 'DS:Z:' in col:
                         continue
                     else:
                         newline += col+'\t'
-                line=newline.rstrip('\t')
+                line = newline.rstrip('\t')
             
-            line=line.rstrip('\n')+'\t'+'DS:Z:'+str(round(LR,3))
+            line = line.rstrip('\n')+'\t'+'DS:Z:'+str(round(LR,3))
 
         if options.printDS:
             print(L_D,'\t',L_M,'\t',L_D/L_M,'\t',LR) #,'\t',readlen,'\t',perc_identity,'\t',perc_identity*(math.log((L_D/L_M)))
@@ -633,26 +632,26 @@ def main():
             if LR >= options.threshold and LR < options.upperthreshold:
                 print(line.rstrip('\n'))
             else:
-                excluded_threshold +=1
+                excluded_threshold += 1
 
         if options.printalignments:
             if options.threshold > (-10000) or options.upperthreshold < (1000000):
                 try:
-                    LR= (math.log(L_D/L_M)  )
+                    LR = (math.log(L_D/L_M)  )
                 except: continue
                 if LR < options.threshold or LR >options.upperthreshold < (1000000):
                     continue
 
-            quals1=''
-            quals2=''            
+            quals1 = ''
+            quals2 = ''            
             for q in quals:
-                qnum=ord(q)-33
+                qnum = ord(q)-33
                 if qnum <10:
-                    quals1 +='0'
-                    quals2+=str(qnum)
+                    quals1 += '0'
+                    quals2 += str(qnum)
                 else:
-                    quals1+=str(qnum)[0]
-                    quals2+=str(qnum)[1]
+                    quals1 += str(qnum)[0]
+                    quals2 += str(qnum)[1]
             #print(MD,cigar,reverse)
             #print(col[9])
             print(real_read)
@@ -663,7 +662,7 @@ def main():
             #print(quals2)
             #print(col[10])
             print('')
-        passed+=1
+        passed += 1
         if passed >= options.maxreads:break
 
 
@@ -691,45 +690,45 @@ def main():
 
 
     if options.deamination:
-        pairs=['CT','CA','CG','CC','GA','GT','GC','GG']
-        itotaldict={}
-        ztotaldict={}
+        pairs = ['CT','CA','CG','CC','GA','GT','GC','GG']
+        itotaldict = {}
+        ztotaldict = {}
         for i in range(0,options.range):
-            itotal=0
-            ztotal=0
+            itotal = 0
+            ztotal = 0
             for p in pairs:
-                thekey=p+str(i)
+                thekey = p+str(i)
                 try:
                     itotal += mismatch_dict[thekey]
                 except KeyError: pass
                 try:
                     ztotal += mismatch_dict_rev[thekey]
                 except KeyError: pass
-            itotaldict[i]=itotal
-            ztotaldict[i]=ztotal
+            itotaldict[i] = itotal
+            ztotaldict[i] = ztotal
 
         print('z\t','\t'.join(pairs))
 
         for i in range(0,options.range):
             print(str(i)+'\t', end="")
             for p in pairs:
-                thekey=p+str(i)
+                thekey = p+str(i)
                 if 'C' in p[0]:
                     try:
-                        thecount=mismatch_dict[thekey]
+                        thecount = mismatch_dict[thekey]
                     except KeyError: 
                         print('0.00000\t', end="")
                         continue
-                    thetotal=itotaldict[i]
-                    frac=1.0*thecount/thetotal
+                    thetotal = itotaldict[i]
+                    frac = 1.0*thecount/thetotal
                 if 'G' in p[0]:
                     try:
-                        thecount=mismatch_dict_rev[thekey]
+                        thecount = mismatch_dict_rev[thekey]
                     except KeyError: 
                         print('0.00000\t', end="")
                         continue
-                    thetotal=ztotaldict[i]
-                    frac=1.0*thecount/thetotal
+                    thetotal = ztotaldict[i]
+                    frac = 1.0*thecount/thetotal
                 print(str(round(frac,5))+'\t', end="")
             print('')
 
