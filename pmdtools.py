@@ -679,9 +679,9 @@ def main():
         ---------------------------------
         """.format(
             clipexcluded=clipexcluded,
-            indelexcluded,
+            indelexcluded=indelexcluded,
             noMD=noMD,
-            noGCexcluded,
+            noGCexcluded=noGCexcluded,
             passed=passed,
             threshold=int(options.threshold),
             excluded_threshold=excluded_threshold,
