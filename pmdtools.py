@@ -30,8 +30,6 @@ import argparse
 import math
 
 
-
-
 def parse_args():
     parser = argparse.ArgumentParser(epilog=__version__)
     parser.add_argument("-n", "--number", dest="maxreads",
@@ -71,6 +69,7 @@ def parse_args():
             type=float, 
             help="Parameter p in geometric probability distribution of PMD [%(default)s].")
     parser.add_argument("--PMDconstant", dest="PMDconstant",
+            default=0.01,
             type=float, 
             help="Constant C in geometric probability distribution of PMD [%(default)s].")
     parser.add_argument("-l", "--maxlength", dest="maxlength",
