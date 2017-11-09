@@ -49,10 +49,10 @@ def parse_args():
             default=0,
             type=int, 
             help="Only process bases with base quality > BQ [%(default)s].")
-    parser.add_argument("-d", "--deamination", dest="deamination", 
+    parser.add_argument("-d", "--deamination", dest="deamination",  action="store_true",
             default=False,
             help="Output base frequencies in the read at positions where there are C or G in the reference [%(default)s].")
-    parser.add_argument("--CpG", dest="cpg",
+    parser.add_argument("--CpG", dest="cpg", action="store_true",
             default=False,
             help="Only use Cs and Gs in CpG context [%(default)s].")
     parser.add_argument("--range", dest="range", 
@@ -79,34 +79,34 @@ def parse_args():
             default=200,
             type=int, 
             help="max length of a sequence")
-    parser.add_argument("--noclips", dest="noclips",
+    parser.add_argument("--noclips", dest="noclips", action="store_true",
             default=False,
             help="No clips [%(default)s].")
-    parser.add_argument("--noindels", dest="noindels",
+    parser.add_argument("--noindels", dest="noindels", action="store_true",
             default=False,
             help="No indels [%(default)s].")
-    parser.add_argument("--onlyclips", dest="onlyclips",
+    parser.add_argument("--onlyclips", dest="onlyclips", action="store_true",
             default=False,
             help="Only clips [%(default)s].")
-    parser.add_argument("--onlydeletions", dest="onlydeletions",
+    parser.add_argument("--onlydeletions", dest="onlydeletions", action="store_true",
             default=False,
             help="Only deletions [%(default)s].")
-    parser.add_argument("--onlyinsertions", dest="onlyinsertions",
+    parser.add_argument("--onlyinsertions", dest="onlyinsertions", action="store_true",
             default=False,
             help="Only insertions [%(default)s].")
-    parser.add_argument("--nodeletions", dest="nodeletions",
+    parser.add_argument("--nodeletions", dest="nodeletions", action="store_true",
             default=False,
             help="No deletions [%(default)s].")
-    parser.add_argument("--noinsertions", dest="noinsertions",
+    parser.add_argument("--noinsertions", dest="noinsertions", action="store_true",
             default=False,
             help="No insertions [%(default)s].")
-    parser.add_argument("--notreverse", dest="notreverse",
+    parser.add_argument("--notreverse", dest="notreverse", action="store_true",
             default=False,
             help="No reverse complement alignments [%(default)s].")
-    parser.add_argument("-p", "--printDS", dest="printDS",
+    parser.add_argument("-p", "--printDS", dest="printDS", action="store_true",
             default=False,
             help="Print PMD scores [%(default)s].")
-    parser.add_argument("--printalignments", dest="printalignments",
+    parser.add_argument("--printalignments", dest="printalignments", action="store_true",
             default=False,
             help="Print human readable alignments [%(default)s].")
     parser.add_argument("-t", "--threshold", dest="threshold", metavar="LT",
@@ -121,26 +121,26 @@ def parse_args():
             default=0.0,
             type=float, 
             help="Only output sequences with percent identity > T [%(default)s].")
-    parser.add_argument("-a", "--adjustbaseq", dest="adjustbaseq",
+    parser.add_argument("-a", "--adjustbaseq", dest="adjustbaseq", action="store_true",
             default=False,
             help="Apply PMD-aware adjustment of base quality scores specific to C>T and G>A mismatches to the reference [%(default)s].")
-    parser.add_argument("--adjustbaseq_all", dest="adjustbaseq_all",
+    parser.add_argument("--adjustbaseq_all", dest="adjustbaseq_all", action="store_true",
             default=False,
             help="Apply PMD-aware adjustment of base quality scores regardless of observed bases [%(default)s].")
-    parser.add_argument("--dry", dest="dry",
+    parser.add_argument("--dry", dest="dry", action="store_true",
             default=False,
             help="Print SAM input without any filters [%(default)s].")
-    parser.add_argument("--header", dest="header",
+    parser.add_argument("--header", dest="header", action="store_true",
             default=False,
             help="Output the SAM header [%(default)s].")
-    parser.add_argument("--writesamfield", dest="writesamfield",
+    parser.add_argument("--writesamfield", dest="writesamfield", action="store_true",
             default=False,
             help="Add 'DS:Z:<PMDS>' field to SAM output, will overwrite if already present [%(default)s].")
     parser.add_argument("-b", "--basic", dest="basic",
             default=0,
             type=int, 
             help="Only output reads with a C>T mismatch this many basepairs from the 5' end [%(default)s].")
-    parser.add_argument("--stats", dest="stats",
+    parser.add_argument("--stats", dest="stats", action="store_true",
             default=False,
             help="Output summarizing statistics to stderr [%(default)s].")
 
