@@ -320,8 +320,6 @@ def main():
             #print(PMDS)
         
 
-
-
         ##############
         # Recreate reference sequence from MD field
         ##############
@@ -457,9 +455,6 @@ def main():
             if perc_identity < options.perc_identity:continue
 
 
-
-
-
         ##############
         #start PMD score computations
         ##############
@@ -563,10 +558,6 @@ def main():
                                 #print(quals[i],newqual)
                                 #print(quals[0:i],quals[i],quals[(i+1):])
                                 #print(quals)
-                            
-
-                        
-
                         elif a == 'C': 
                             L_D = L_D * L_match(i,ancient_model_deam,quals,options.polymorphism_ancient) 
                             L_M = L_M * L_match(i,modern_model_deam,quals,options.polymorphism_contamination) 
