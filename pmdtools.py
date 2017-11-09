@@ -28,6 +28,7 @@ __version__ = "PMDtools v0.50"
 from sys import argv, exit, stdin, stderr
 import argparse
 import math
+import re
 
 
 def parse_args():
@@ -222,7 +223,6 @@ def main():
     mismatch_dict={}
 
 
-    import re
     cigarparser = re.compile("([0-9]*)([A-Z])")
 
 
@@ -331,7 +331,6 @@ def main():
             ref_seq=''
             newread=''
         
-            import re
             try:
                 MD=line.split('MD:Z:')[1].split()[0].rstrip('\n')
             except IndexError:
@@ -736,5 +735,5 @@ def main():
 
 
 if __name__ == "__main__":
-    args = parse_args()
+    options = parse_args()
     main()
