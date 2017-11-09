@@ -162,41 +162,41 @@ def revcomp(inseq):
         elif inbase == '-': newseq += '-'
     return newseq
 
+
 def phred2prob(Q):
     return 10.0 ** (-Q/10.0)
+
 
 def prob2phred(P):
     return -10.0*math.log(P,10)
 
 
-def L_match(fposition,fmodel,fquals,fpoly):
-    P_damage=     float(fmodel[fposition]) 
-    P_error=     phred2prob( (ord(fquals[fposition])-33))/3.0
-    P_poly=        fpoly
-    P_match=     (1.0-P_damage)*(1.0-P_error)*(1.0-P_poly) + (P_damage*P_error*(1.0-P_poly)) + (P_error*P_poly * (1.0-P_damage))
-
+def L_match(fposition, fmodel, fquals, fpoly):
+    P_damage = float(fmodel[fposition]) 
+    P_error = phred2prob((ord(fquals[fposition])-33))/3.0
+    P_poly = fpoly
+    P_match = (1.0-P_damage)*(1.0-P_error)*(1.0-P_poly) + (P_damage*P_error*(1.0-P_poly)) + (P_error*P_poly * (1.0-P_damage))
     return P_match
 
 
-def L_mismatch(fposition,fmodel,fquals,fpoly):
-    P_damage=     float(fmodel[fposition]) 
-    P_error=     phred2prob( (ord(fquals[fposition])-33))/3.0
-    P_poly=        fpoly
-    P_match=     (1.0-P_damage)*(1.0-P_error)*(1.0-P_poly) + (P_damage*P_error*(1.0-P_poly)) + (P_error*P_poly * (1.0-P_damage))
-    P_mismatch=    1.0-P_match
+def L_mismatch(fposition, fmodel, fquals, fpoly):
+    P_damage = float(fmodel[fposition]) 
+    P_error = phred2prob((ord(fquals[fposition])-33))/3.0
+    P_poly = fpoly
+    P_match = (1.0-P_damage)*(1.0-P_error)*(1.0-P_poly) + (P_damage*P_error*(1.0-P_poly)) + (P_error*P_poly * (1.0-P_damage))
+    P_mismatch = 1.0-P_match
     return P_mismatch
 
-def Newbaseq(fposition,fmodel,fquals):
-    P_damage=     float(fmodel[fposition]) 
-    P_error=     phred2prob( (ord(fquals[fposition])-33))/3.0
-    NewErrorP= 1.0 - ((1.0-P_damage) * (1.0-P_error))
+
+def Newbaseq(fposition, fmodel, fquals):
+    P_damage = float(fmodel[fposition]) 
+    P_error = phred2prob( (ord(fquals[fposition])-33))/3.0
+    NewErrorP = 1.0 - ((1.0-P_damage) * (1.0-P_error))
     return NewErrorP
+
 
 def geometric(pval,kval,constant):
     return ((1.0-pval)**(kval-1))*pval + constant
-
-
-        
 
 
 def main():
@@ -733,7 +733,6 @@ def main():
                     frac=1.0*thecount/thetotal
                 print(str(round(frac,5))+'\t', end="")
             print('')
-
 
 
 if __name__ == "__main__":
