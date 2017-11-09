@@ -15,18 +15,20 @@ PMDtools implements a likelihood framework incorporating postmortem damage
 sequences that are unlikely to originate from modern contamination. Using the
 model, each sequence is assigned a PMD score, for which positive values
 indicate support for the sequence being genuinely ancient. For details of the
-method, please see the main paper in PNAS.
+method, please see the [main paper in PNAS](http://www.pnas.org/content/early/2014/01/23/1318934111.abstract).
 
 In addition, PMDtools also offers PMD-aware base quality score adjustment and
 investigation of damage patterns.
 
-PMDtools takes SAM-formatted input, and requires an MD tag with alignment
-information. The MD tag is featured in the output of many aligners but can
-otherwise be added e.g. using the SAMtools fillmd/calmd tool (Li, Handsaker et
-al. 2009).
+PMDtools takes [SAM](http://samtools.sourceforge.net/SAM1.pdf)-formatted input,
+and requires an MD tag with alignment information. The MD tag is featured in
+the output of many aligners but can otherwise be added e.g. using the
+[SAMtools](http://samtools.sourceforge.net/) fillmd/calmd tool (Li, Handsaker
+et al. 2009).
 
 No external packages except for python 2.6 are required, but for manipulating
-BAM files, SAMtools is recommended. Extra plotting requires R.
+BAM files, [SAMtools](http://samtools.sourceforge.net/) is recommended. Extra
+plotting requires [R](https://www.r-project.org/).
 
 Questions can be addressed to pontus.skoglund@gmail.com.
 
@@ -54,10 +56,10 @@ For a full list of options, enter:
 # Citation
 Please cite: 
 
-    P Skoglund, BH Northoff, MV Shunkov, A Derevianko, S Pääbo, J Krause, M Jakobsson (2014) 
-    Separating ancient DNA from modern contamination in a Siberian Neandertal, 
-    Proceedings of the National Academy of Sciences USA
-    doi:10.1073/pnas.1318934111
+P Skoglund, BH Northoff, MV Shunkov, A Derevianko, S Pääbo, J Krause, M Jakobsson (2014) 
+[Separating ancient DNA from modern contamination in a Siberian Neandertal](https://docs.google.com/file/d/0BzxpmkTnJX5AZWxLaHh1Q1hheXc/),
+Proceedings of the National Academy of Sciences USA
+doi:[10.1073/pnas.1318934111](http://dx.doi.org/10.1073/pnas.1318934111)
 
 
 # Repo info
