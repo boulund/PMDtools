@@ -380,7 +380,7 @@ def main():
                 ref_seq = ''
                 newread = ''
                 alignmentcounter = 0
-                for x,r in zip(xrange(0,len(col[9])),read):
+                for x,r in zip(range(0,len(col[9])),read):
                     if x in insertions:
                         ref_seq += '-'
                         newread += read[x]
