@@ -41,9 +41,11 @@ def parse_args():
             type=str,
             help="Only process data from this chromosome [%(default)s].")
     parser.add_argument("-m", "--requiremapq", dest="mapq", metavar="MQ",
+            default=0,
             type=int, 
             help="Only process sequences with mapping quality > MQ [%(default)s].")
     parser.add_argument("-q", "--requirebaseq", dest="baseq", metavar="BQ",
+            default=0,
             type=int, 
             help="Only process bases with base quality > BQ [%(default)s].")
     parser.add_argument("-d", "--deamination", dest="deamination", 
