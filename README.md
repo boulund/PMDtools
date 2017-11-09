@@ -40,7 +40,8 @@ To restrict to sequences with a PMD score of at least 3, enter:
 
 To compute deamination-derived damage patterns, enter:
 
-    samtools view mybam.bam | python pmdtools.py --deamination --range 30 > PMD_temp.txt R CMD BATCH plotPMD.R cp PMD_plot.pdf mybam.PMD_plot.pdf
+    samtools view mybam.bam | python pmdtools.py --deamination --range 30 > PMD_temp.txt 
+	R CMD BATCH plotPMD.R cp PMD_plot.pdf mybam.PMD_plot.pdf
 
 PMDtools also computes damage patterns from sequence libraries in which damage
 has been repaired, e.g. using uracil–DNA–glycosylase and endonuclease VIII.
