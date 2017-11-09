@@ -245,7 +245,7 @@ def main():
 
 
     line_counter = 0
-    for line in sys.stdin: 
+    for line in stdin: 
         if '@' in line[0]: 
             if options.header:
                 print(line.rstrip('\n'))
