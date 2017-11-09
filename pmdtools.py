@@ -150,15 +150,6 @@ def parse_args():
     return parser.parse_args()
 
 
-def translate(inbase):
-    if inbase == 'A': outbase = 'T'
-    elif inbase == 'T': outbase = 'A'
-    elif inbase == 'G': outbase = 'C'
-    elif inbase == 'C': outbase = 'G'
-    elif inbase == 'N': outbase = 'N'    
-    elif inbase == '-': newseq += '-'
-    return outbase
-
 def revcomp(inseq):
     inseq= inseq[::-1]
     newseq=''
