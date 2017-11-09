@@ -331,9 +331,9 @@ def main():
 
 
 
-        """
-        Recreate reference sequence from MD field
-        """
+        ##############
+        # Recreate reference sequence from MD field
+        ##############
         if (DSfield == False) or (options.writesamfield) or (options.basic > 0) or (options.perc_identity > 0.01) or (options.printalignments) or (options.adjustbaseq) or (options.adjustbaseq_all) or options.deamination or options.dry:
             
             read=col[9]
@@ -417,10 +417,10 @@ def main():
             real_ref_seq=ref_seq
 
 
-        """
-        basic filter
-        prints the SAM line if a C>T mismatch with sufficient base quality is observed in the first n bases, where n is specified
-        """
+        ##############
+        # basic filter
+        # prints the SAM line if a C>T mismatch with sufficient base quality is observed in the first n bases, where n is specified
+        ##############
         if options.basic > 0:
             start_position = len(real_read) - len(real_read.lstrip('-'))
             for a,b,x in zip(real_read,real_ref_seq,range(0,len(real_ref_seq))):
@@ -439,9 +439,9 @@ def main():
 
 
         if options.perc_identity > 0.01 or options.printalignments:
-            """
-            divergence filter
-            """
+            ##############
+            # divergence filter
+            ##############
             match=0
             mismatch=0
             mismatch_string=''
@@ -471,9 +471,9 @@ def main():
 
 
 
-        """
-        start PMD score computations
-        """
+        ##############
+        #start PMD score computations
+        ##############
 
         if (DSfield == False) or (DSfield == True and options.writesamfield == True) or (options.basic > 0) or options.adjustbaseq or options.adjustbaseq_all or options.deamination or options.dry:
             L_D=1.0
@@ -551,9 +551,9 @@ def main():
                     continue
 
 
-                """    
-                compute degradation score
-                """
+                ##############
+                # compute degradation score
+                ##############
                 if True:
                     if i >= readlen:continue
                     if b == 'C':
@@ -615,9 +615,9 @@ def main():
                 qualsp=quals
             line='\t'.join(col[0:10])+'\t'+qualsp+'\t'+'\t'.join(col[11:])
 
-        """
-        add PMDS tag
-        """
+        ##############
+        # add PMDS tag
+        ##############
         if options.writesamfield == True:
             # remove DS field if present
             if DSfield==True:
@@ -630,7 +630,6 @@ def main():
                 line=newline.rstrip('\t')
             
             line=line.rstrip('\n')+'\t'+'DS:Z:'+str(round(LR,3))
-
 
         if options.printDS:
             print(L_D,'\t',L_M,'\t',L_D/L_M,'\t',LR) #,'\t',readlen,'\t',perc_identity,'\t',perc_identity*(math.log((L_D/L_M)))
@@ -645,8 +644,6 @@ def main():
                 print(line.rstrip('\n'))
             else:
                 excluded_threshold +=1
-
-
 
         if options.printalignments:
             if options.threshold > (-10000) or options.upperthreshold < (1000000):
