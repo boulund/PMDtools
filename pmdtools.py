@@ -682,15 +682,24 @@ def main():
 
     if options.stats:
         stats = """---------------------------------
-        - excluded due to clipping:',clipexcluded
-        - excluded due to indels:',indelexcluded
-        - no MD field:',noMD
-        - no G or C in ref:',noGCexcluded
-        - total seqs:',passed
-        - excluded due to PMD score <',str(int(options.threshold))+':',excluded_threshold
-        - passed seqs:',(passed-excluded_threshold)
+        - excluded due to clipping: {clipexcluded}
+        - excluded due to indels: {indelexcluded}
+        - no MD field: {noMD}
+        - no G or C in ref: {noGCexcluded}
+        - total seqs: {passed}
+        - excluded due to PMD score <{threshold}: {excluded_threshold}
+        - passed seqs: {passed_seqs} 
         ---------------------------------
-        """
+        """.format(
+            clipexcluded=clipexcluded,
+            indelexcluded,
+            noMD=noMD,
+            noGCexcluded,
+            passed=passed,
+            threshold=int(options.threshold),
+            excluded_threshold=excluded_threshold,
+            passed_seqs=passed-excluded_threshold,
+            )
         print(stats, file=stderr)
 
 
