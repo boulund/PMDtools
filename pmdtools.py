@@ -698,7 +698,7 @@ def main():
             itotaldict[i] = itotal
             ztotaldict[i] = ztotal
 
-        print('z\t','\t'.join(pairs))
+        print('z\t'+'\t'.join(pairs))
 
         for i in range(0,options.range):
             print(str(i)+'\t', end="")
